@@ -15,7 +15,7 @@ type service struct {
 }
 
 type LocalMysqlIntf interface {
-	GetAllPlants() []models.Plants
+	GetAllPlants() ([]models.Plants, error)
 }
 
 func NewService() LocalMysqlIntf {
@@ -24,8 +24,35 @@ func NewService() LocalMysqlIntf {
 	return &svc
 }
 
-func (s *service) GetAllPlants() []models.Plants {
+func (s *service) GetAllPlants() ([]models.Plants, error) {
+	s.openDBConnection()
+	defer s.DB.Close()
 	list := []models.Plants{}
+	query := "SELECT * FROM PLANTS"
+	results, err := s.DB.Query(query)
+	if err != nil {
+		return list, err
+	}
 
-	return list
+	for results.Next() {
+		plant := models.Plants{}
+		err := results.Scan(
+			&plant.PlantID,
+			&plant.PlantType,
+			&plant.Temperature,
+			&plant.PhLevels,
+			&plant.Humidity,
+			&plant.CreatedAt,
+		)
+		if err != nil {
+			return list, err
+		}
+		list = append(list, plant)
+	}
+
+	return list, nil
+}
+
+func (s *service) openDBConnection() {
+	s.DB = s.GoMysql.GetDBConnection()
 }

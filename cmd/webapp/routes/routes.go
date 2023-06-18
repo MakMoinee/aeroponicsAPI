@@ -48,7 +48,14 @@ func newRoutes() RoutesIntf {
 
 func (s *service) GetPlants(w http.ResponseWriter, r *http.Request) {
 	log.Println("routes:GetPlants() invoked ...")
-	plantsList := s.Aeroponics.GetPlants()
+	plantsList, err := s.Aeroponics.GetPlants()
+	if err != nil {
+		errBuilder := response.ErrorResponse{}
+		errBuilder.ErrorMessage = err.Error()
+		errBuilder.ErrorStatus = http.StatusInternalServerError
+		response.Error(w, errBuilder)
+		return
+	}
 
 	response.Success(w, plantsList)
 }

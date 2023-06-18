@@ -14,7 +14,7 @@ type service struct {
 }
 
 type AeroponicsIntf interface {
-	GetPlants() []models.Plants
+	GetPlants() ([]models.Plants, error)
 }
 
 func NewService() AeroponicsIntf {
@@ -24,10 +24,9 @@ func NewService() AeroponicsIntf {
 	return &svc
 }
 
-func (s *service) GetPlants() []models.Plants {
+func (s *service) GetPlants() ([]models.Plants, error) {
 	log.Println("aeroponicsAPI:GetPlants() invoked ...")
-	list := []models.Plants{}
-
-	return list
+	list, err := s.LocalMySql.GetAllPlants()
+	return list, err
 
 }
