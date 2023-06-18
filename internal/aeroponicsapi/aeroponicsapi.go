@@ -2,6 +2,7 @@ package aeroponicsapi
 
 import (
 	"aeroponicsAPI/internal/aeroponicsapi/models"
+	"aeroponicsAPI/internal/repository/localmysql"
 	"log"
 
 	"github.com/MakMoinee/go-mith/pkg/gofirebase"
@@ -9,6 +10,7 @@ import (
 
 type service struct {
 	FirebaseApp gofirebase.FirebaseIntf
+	LocalMySql  localmysql.LocalMysqlIntf
 }
 
 type AeroponicsIntf interface {
@@ -17,6 +19,7 @@ type AeroponicsIntf interface {
 
 func NewService() AeroponicsIntf {
 	svc := service{}
+	svc.LocalMySql = localmysql.NewService()
 
 	return &svc
 }

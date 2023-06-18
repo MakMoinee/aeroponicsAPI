@@ -1,1 +1,8 @@
 SERVER_PORT: ":8443"
+
+#MYSQL
+DB_NAME: "aeroponics"
+DB_USER: "root"
+DB_PASSWORD: "Develop@2021"
+DB_DRIVER: "mysql"
+DB_SERVER: "localhost"

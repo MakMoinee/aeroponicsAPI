@@ -23,4 +23,9 @@ func Set() {
 
 	Registry = viper.GetViper()
 	common.SERVER_PORT = Registry.GetString("SERVER_PORT")
+	common.DB_NAME = Registry.GetString("DB_NAME")
+	common.DB_USER = Registry.GetString("DB_USER")
+	common.DB_PASSWORD = Registry.GetString("DB_PASSWORD")
+	common.DB_DRIVER = Registry.GetString("DB_DRIVER")
+	common.DB_SERVER = Registry.GetString("DB_SERVER")
 }
